@@ -1,0 +1,117 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: sans-serif;
+    background-color: black;
+  }
+  
+  .scene-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .scene {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+    z-index: 1;
+  }
+  
+  .visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .fullscreen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .overlay-text {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 5px black;
+    z-index: 2;
+    transition: opacity 0.5s ease;
+  }
+  
+  #nepalContainer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0;
+    transition: opacity 2s ease;
+    z-index: 3;
+  }
+  
+  #nepalContainer.fade-to-black::after {
+    opacity: 1;
+  }
+  /* ------------------------------------------------------------------
+   Skills & Tools
+------------------------------------------------------------------ */
+.skills-section {
+    background: #0d0d0d;
+    padding: 80px 30px;
+    text-align: center;
+  }
+  
+  .skills-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #ffda77;
+  }
+  
+  .skills-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .skill-item {
+    padding: 16px 20px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    transition: transform 0.25s, border-color 0.25s, background 0.25s;
+  }
+  
+  .skill-item:hover {
+    transform: translateY(-6px) scale(1.03);
+    border-color: #ffda77;
+    background: rgba(255, 218, 119, 0.12);
+  }
+  
+  /* Responsive tweak: stack heading and grid closer on mobile */
+  @media (max-width: 480px) {
+    .skills-section h2 {
+      margin-bottom: 24px;
+    }
+  }
+  

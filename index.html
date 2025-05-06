@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Darshan's World</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="scene-container">
+    <!-- Earth image -->
+    <img id="earthImage" src="assets/earth-start.png" class="scene visible" alt="Earth" />
+
+    <!-- Zoom video -->
+    <video
+      id="earthVideo"
+      class="scene hidden"
+      src="assets/earth-to-nepal.webm"
+      playsinline
+      muted
+    ></video>
+
+    <!-- Final Nepal map container (with fade-to-black effect) -->
+    <div id="nepalContainer" class="scene hidden">
+      <img id="nepalMap" src="assets/nepal-outline.jpeg" class="fullscreen" alt="Nepal" />
+    </div>
+
+    <!-- Welcome text -->
+    <div class="overlay-text" id="textBlock">
+      <h1>Welcome to Darshan's World</h1>
+      <p>Scroll to zoom into Nepal 🇳🇵</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

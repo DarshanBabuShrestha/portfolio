@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Darshan Babu Shrestha</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Yatra+One&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Merriweather', serif;
+      color: white;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .scroll-container {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    section {
+      scroll-snap-align: start;
+      min-height: 100vh;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .namaste {
+      font-family: 'Yatra One', cursive;
+      font-size: 3.5rem;
+      color: #ffda77;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .cta {
+      padding: 12px 30px;
+      font-size: 1rem;
+      background: #ffda77;
+      color: black;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .cta:hover {
+      background: #ffd24a;
+    }
+
+    .social-links {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-links a img {
+      width: 40px;
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .social-links a img:hover {
+      transform: scale(1.1);
+    }
+
+    .about-section {
+      background-color: #111;
+      padding: 80px 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .about-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 40px;
+      max-width: 1000px;
+    }
+
+    .about-photo {
+      width: 280px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+      transition: transform 0.4s ease;
+      cursor: pointer;
+    }
+
+    .about-photo:hover {
+      transform: scale(1.05);
+    }
+
+    .about-text {
+      flex: 1;
+      min-width: 280px;
+      color: #f1f1f1;
+    }
+
+    .about-text h2 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      color: #ffda77;
+    }
+
+    .about-text p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .fullscreen-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    }
+
+    .fullscreen-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease;
+    }
+
+    .fullscreen-image {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .close-button:hover {
+      opacity: 1;
+    }
+
+    .skills-section {
+      background-color: black;
+      padding: 60px 40px;
+    }
+
+    .skills-section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #ffda77;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .skill-item {
+      font-size: 1.1rem;
+      font-weight: bold;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .skill-item.animated{
+      animation: fadeSlideUp 0.6s ease-out forwards;
+    }
+
+    @keyframes fadeSlideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .namaste {
+        font-size: 2.5rem;
+      }
+
+      .about-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .about-text {
+        text-align: left;
+      }
+    }
+
+    /* Experience Section Styles */
+    .experience-section {
+      background-color: #1a1a1a;
+      color: #f1f1f1;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .experience-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #ffda77;
+    }
+
+    .experience-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .experience-card {
+      background-color: #2a2a2a;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .experience-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .experience-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #ffda77;
+    }
+
+    .experience-card h4 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #f1f1f1;
+    }
+
+    .experience-card p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Projects Section Styles */
+    .projects-section {
+      background-color: #111;
+      padding: 60px 20px;
+      text-align: center;
+      color: #f1f1f1;
+    }
+    .projects-section h2 {
+      font-size: 2.5rem;
+      color: #ffda77;
+      margin-bottom: 40px;
+    }
+    .project-card {
+      background-color: #2a2a2a;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 800px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      text-align: left;
+    }
+    .project-card h3 {
+      color: #ffd54f;
+      margin-bottom: 10px;
+    }
+    .project-card p {
+      font-size: 1rem;
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+    .project-card a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+    .project-card a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <video autoplay loop muted playsinline id="bg-video">
+    <source src="assets/portfolio1.mp4" type="video/mp4" />
+  </video>
+
+  <div class="scroll-container">
+
+    <section class="hero">
+      <div class="namaste">नमस्ते</div>
+      <h1>I’m Darshan Babu Shrestha</h1>
+      <div id="typedText"></div>
+      <button class="cta" onclick="document.getElementById('about').scrollIntoView({ behavior: 'smooth' });">
+        Explore My Journey
+      </button>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/darshan-babu-shrestha-1076b3212/" target="_blank">
+          <img src="assets/linkedin.png" alt="LinkedIn" />
+        </a>
+        <a href="https://github.com/DarshanBabuShrestha" target="_blank">
+          <img src="assets/github.jpg" alt="GitHub" />
+        </a>
+      </div>
+    </section>
+
+    <section id="about" class="about-section">
+      <div class="about-container">
+        <img src="assets/me.jpeg" alt="Darshan at Paradox Museum" class="about-photo" onclick="openFullscreen(this.src)" />
+        <div class="about-text">
+          <h2>About Me</h2>
+          <p>
+Yeah, that’s me.
+Split in half, yet somehow whole just like the problems I solve in computer science.
+
+What you are looking at is an optical illusion from the Paradox Museum. But it says a lot about who I am: I live at the intersection of logic and creativity, structure and imagination.
+
+On one side, I am the grounded engineer writing clean code, building smart systems, solving real problems.
+On the other, I’m the playful creator asking “what if?”, designing experiences that surprise people, and seeing the world through a lens of curiosity.
+
+I don’t just fix bugs. I build things that make people pause, smile, and think twice.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="skills-section">
+      <h2>Skills & Tools</h2>
+      <div class="skills-grid">
+        <div class="skill-item">JavaScript</div>
+        <div class="skill-item">React & Vite</div>
+        <div class="skill-item">Python</div>
+        <div class="skill-item">FastAPI</div>
+  
+        <div class="skill-item">HTML & CSS</div>
+        <div class="skill-item">SQL / SQLite</div>
+        <div class="skill-item">OpenCV</div>
+        <div class="skill-item">Gemini APIs</div>
+        <div class="skill-item">GitHub</div>
+      </div>
+    </section>
+
+    <section id="experience" class="experience-section">
+      <h2>Experience</h2>
+      <div class="experience-cards">
+        <div class="experience-card">
+          <h3>Website Development Intern</h3>
+          <h4>Tomorrow’s Leaders Today (TLT)</h4>
+          <img src="assets/TLT2.png" alt="TLT Logo" style="width: 100px; margin: 10px auto; display: block;" />
+          <p><strong>Time:</strong> Summer 2025</p>
+          <p>Redesigned and maintained the organization’s website for better user engagement. Attended weekly team strategy sessions and collaborated with stakeholders to implement new features, perform SEO improvements, and build dynamic content.</p>
+        </div>
+        <div class="experience-card">
+          <h3>Frontend Developer Intern</h3>
+          <h4>GBCS Group</h4>
+          <img src="assets/gbcs.jpg" alt="GBCS Logo" style="width: 100px; margin: 10px auto; display: block;" />
+          <p><strong>Time:</strong> Summer 2025</p>
+          <p>Contributed to web application development for green-tech solutions in the global fleet sector. Worked on building interactive frontend components, received mentorship from leadership, and participated in stakeholder meetings. Helped develop tools to reduce carbon footprint across marine and land fleets.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects-section">
+      <h2>🧑‍💻 Personal Projects</h2>
+
+      <div class="project-card">
+        <h3>🎙️ AI Slides-to-Lecture Video Generator</h3>
+        <p><strong>Description:</strong> A full-stack platform that turns slides (PDF/PPTX) into AI-narrated lecture videos with synchronized audio.</p>
+        <p><strong>Tech Stack:</strong> Python, FastAPI, React, Google TTS, ElevenLabs API, Gemini API, ffmpeg</p>
+        <p><strong>Role:</strong> Built backend + frontend, handled file parsing, narration sync, and chatbot constraints.</p>
+        <p><strong>Challenges:</strong> Slide/audio synchronization, large file processing, course-restricted chatbot responses.</p>
+        <p><a href="https://github.com/DarshanBabuShrestha" target="_blank">GitHub</a></p>
+      </div>
+
+      <div class="project-card">
+        <h3>🦯 GeminEye – AI Navigation for the Blind</h3>
+        <p><strong>Description:</strong> Real-time assistive AI app that describes scenes and warns users of obstacles.</p>
+        <p><strong>Tech Stack:</strong> OpenCV, Google Cloud Vision API, Gemini API, Python, TTS</p>
+        <p><strong>Role:</strong> Implemented camera feed OCR, scene analysis, and real-time narration logic.</p>
+        <p><strong>Challenges:</strong> Real-time performance, accurate scene generation, context fallback design.</p>
+        <p><a href="https://github.com/DarshanBabuShrestha" target="_blank">GitHub</a></p>
+      </div>
+
+      <div class="project-card">
+        <h3>🎮 IBDP Grading Simulator Game</h3>
+        <p><strong>Description:</strong> A 2D Python game simulating IB grading logic where players aim for a perfect 45.</p>
+        <p><strong>Tech Stack:</strong> Python, Pygame</p>
+        <p><strong>Role:</strong> Developed mechanics, scoring, UI, and subject collision detection.</p>
+        <p><strong>Challenges:</strong> Balancing education and fun, accurate point thresholds.</p>
+        <p><a href="https://github.com/DarshanBabuShrestha" target="_blank">GitHub</a></p>
+      </div>
+
+      <div class="project-card">
+        <h3>📦 Java Stock Management System</h3>
+        <p><strong>Description:</strong> CLI-based inventory system using OOP principles and persistent storage.</p>
+        <p><strong>Tech Stack:</strong> Java</p>
+        <p><strong>Role:</strong> Architected product classes, added CRUD operations and file I/O.</p>
+        <p><strong>Challenges:</strong> File management, user input validation, command routing.</p>
+        <p><a href="https://github.com/DarshanBabuShrestha" target="_blank">GitHub</a></p>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="fullscreen-overlay" id="fullscreenOverlay">
+    <span class="close-button" onclick="closeFullscreen()">&times;</span>
+    <img src="" alt="Full Size Image" class="fullscreen-image" id="fullscreenImage" />
+  </div>
+
+  <script>
+    // Typing effect
+    const words = [
+      "Software Engineer",
+      "Problem Solver",
+      "Tech Enthusiast",
+      "Creative Builder",
+      "Lifelong Learner"
+    ];
+    const typedText = document.getElementById("typedText");
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+      const currentWord = words[wordIndex];
+      const displayed = currentWord.substring(0, charIndex);
+      typedText.textContent = displayed;
+      typedText.style.width = (displayed.length + 1) + "ch";
+
+      if (!isDeleting && charIndex < currentWord.length) {
+        charIndex++;
+        setTimeout(type, 120);
+      } else if (isDeleting && charIndex > 0) {
+        charIndex--;
+        setTimeout(type, 60);
+      } else {
+        isDeleting = !isDeleting;
+        if (!isDeleting) wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(type, 1000);
+      }
+    }
+
+    type();
+
+    // Fullscreen image logic
+    function openFullscreen(imageSrc) {
+      const overlay = document.getElementById('fullscreenOverlay');
+      const image = document.getElementById('fullscreenImage');
+      image.src = imageSrc;
+      overlay.classList.add('open');
+    }
+
+    function closeFullscreen() {
+      document.getElementById('fullscreenOverlay').classList.remove('open');
+    }
+
+    // Animate skills one by one
+    const skillSection = document.querySelector('#skills');
+    const skillItems = document.querySelectorAll('.skill-item');
+
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          skillItems.forEach((item, i) => {
+            setTimeout(() => {
+              item.classList.add('animated');
+            }, i * 150); // Delay each skill's animation
+          });
+          skillObserver.unobserve(skillSection); // Stop observing after animation
+
+        }
+      });
+    }, { threshold: 0.3 });
+
+    skillObserver.observe(skillSection);
+
+    // Animate experience cards on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.experience-card').forEach((card) => {
+      observer.observe(card);
+    });
+  </script>
+
+</body>
+</html>
+
