@@ -340,6 +340,14 @@
     <source src="assets/portfolio1.mp4" type="video/mp4" />
   </video>
 
+  <nav style="width: 100%; background: #181818; padding: 12px 0; text-align: center; position: sticky; top: 0; z-index: 2;">
+    <a href="#about" style="color: #ffda77; margin: 0 18px; text-decoration: none; font-weight: bold;">About</a>
+    <a href="#skills" style="color: #ffda77; margin: 0 18px; text-decoration: none; font-weight: bold;">Tech Stack</a>
+    <a href="#experience" style="color: #ffda77; margin: 0 18px; text-decoration: none; font-weight: bold;">Experience</a>
+    <a href="#projects" style="color: #ffda77; margin: 0 18px; text-decoration: none; font-weight: bold;">Projects</a>
+    <a href="#achievements" style="color: #ffda77; margin: 0 18px; text-decoration: none; font-weight: bold;">Achievements</a>
+  </nav>
+
   <div class="scroll-container">
 
     <section class="hero">
@@ -380,17 +388,21 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
     </section>
 
     <section id="skills" class="skills-section">
-      <h2>Skills & Tools</h2>
+      <h2>Tech Stack</h2>
       <div class="skills-grid">
-        <div class="skill-item">JavaScript</div>
-        <div class="skill-item">React & Vite</div>
         <div class="skill-item">Python</div>
         <div class="skill-item">FastAPI</div>
-  
-        <div class="skill-item">HTML & CSS</div>
-        <div class="skill-item">SQL / SQLite</div>
+        <div class="skill-item">PyMuPDF</div>
+        <div class="skill-item">python-pptx</div>
+        <div class="skill-item">Gemini API</div>
+        <div class="skill-item">HTML &amp; CSS</div>
+        <div class="skill-item">JavaScript</div>
         <div class="skill-item">OpenCV</div>
-        <div class="skill-item">Gemini APIs</div>
+        <div class="skill-item">Google Cloud Vision API</div>
+        <div class="skill-item">TTS</div>
+        <div class="skill-item">Pygame</div>
+        <div class="skill-item">Java</div>
+        <div class="skill-item">C</div>
         <div class="skill-item">GitHub</div>
       </div>
     </section>
@@ -403,14 +415,21 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
           <h4>Tomorrow’s Leaders Today (TLT)</h4>
           <img src="assets/TLT2.png" alt="TLT Logo" style="width: 100px; margin: 10px auto; display: block;" />
           <p><strong>Time:</strong> Summer 2025</p>
-          <p>Redesigned and maintained the organization’s website for better user engagement. Attended weekly team strategy sessions and collaborated with stakeholders to implement new features, perform SEO improvements, and build dynamic content.</p>
+          <p>Redesign and maintain the organization’s website for better user engagement. Attended weekly team strategy sessions and collaborate with stakeholders to implement new features, perform SEO improvements, and build dynamic content.</p>
         </div>
         <div class="experience-card">
           <h3>Frontend Developer Intern</h3>
           <h4>GBCS Group</h4>
           <img src="assets/gbcs.jpg" alt="GBCS Logo" style="width: 100px; margin: 10px auto; display: block;" />
           <p><strong>Time:</strong> Summer 2025</p>
-          <p>Contributed to web application development for green-tech solutions in the global fleet sector. Worked on building interactive frontend components, received mentorship from leadership, and participated in stakeholder meetings. Helped develop tools to reduce carbon footprint across marine and land fleets.</p>
+          <p>Contribute to web application development for green-tech solutions in the global fleet sector. Work on building interactive frontend components, received mentorship from leadership, and participate in stakeholder meetings. Help develop tools to reduce carbon footprint across marine and land fleets.</p>
+        </div>
+        <div class="experience-card">
+          <h3>Selected Scholar</h3>
+          <h4>AI4ALL Ignite</h4>
+          <img src="assets/ai4all.png" alt="AI4ALL Logo" style="width: 100px; margin: 10px auto; display: block;" />
+          <p><strong>Time:</strong> Summer 2025</p>
+          <p>Selected as a scholar for the AI4ALL Ignite program, focusing on foundational AI concepts, ethics, and hands-on projects with mentorship from leading AI researchers and practitioners.</p>
         </div>
       </div>
     </section>
@@ -419,12 +438,12 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
       <h2>🧑‍💻 Personal Projects</h2>
 
       <div class="project-card">
-        <h3>🎙️ AI Slides-to-Lecture Video Generator</h3>
-        <p><strong>Description:</strong> A full-stack platform that turns slides (PDF/PPTX) into AI-narrated lecture videos with synchronized audio.</p>
-        <p><strong>Tech Stack:</strong> Python, FastAPI, React, Google TTS, ElevenLabs API, Gemini API, ffmpeg</p>
-        <p><strong>Role:</strong> Built backend + frontend, handled file parsing, narration sync, and chatbot constraints.</p>
-        <p><strong>Challenges:</strong> Slide/audio synchronization, large file processing, course-restricted chatbot responses.</p>
-        <p><a href="https://github.com/DarshanBabuShrestha" target="_blank">GitHub</a></p>
+        <h3>🧠 AI Slide-to-Quiz Generator</h3>
+        <p><strong>Description:</strong> A full-stack application that turns uploaded slides (PDF/PPTX) into interactive quizzes generated by AI in real time. It extracts content, prompts a Gemini API model to create multiple-choice questions, and delivers them through a dynamic quiz UI.</p>
+        <p><strong>Tech Stack:</strong> Python, FastAPI, PyMuPDF, python-pptx, Gemini API, HTML/CSS, JavaScript</p>
+        <p><strong>Role:</strong> Built the backend parser, prompt-to-quiz logic, and quiz UI with score tracking.</p>
+        <p><strong>Challenges:</strong> Ensuring prompt consistency, response formatting, multi-format file support, and UX flow across devices.</p>
+        <p><a href="https://frontend-rry1.onrender.com" target="_blank">Live</a></p>
       </div>
 
       <div class="project-card">
@@ -442,7 +461,7 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
         <p><strong>Tech Stack:</strong> Python, Pygame</p>
         <p><strong>Role:</strong> Developed mechanics, scoring, UI, and subject collision detection.</p>
         <p><strong>Challenges:</strong> Balancing education and fun, accurate point thresholds.</p>
-        <p><a href="https://github.com/DarshanBabuShrestha" target="_blank">GitHub</a></p>
+        <p><a href="https://github.com/DarshanBabuShrestha/IB-Game" target="_blank">GitHub</a></p>
       </div>
 
       <div class="project-card">
@@ -451,7 +470,57 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
         <p><strong>Tech Stack:</strong> Java</p>
         <p><strong>Role:</strong> Architected product classes, added CRUD operations and file I/O.</p>
         <p><strong>Challenges:</strong> File management, user input validation, command routing.</p>
-        <p><a href="https://github.com/DarshanBabuShrestha" target="_blank">GitHub</a></p>
+        <p><a href="https://github.com/DarshanBabuShrestha/Stock-Management-System" target="_blank">GitHub</a></p>
+      </div>
+
+      <div class="project-card">
+        <h3>🎲 Bingo Game</h3>
+        <p><strong>Description:</strong> A text-based Bingo game in C that generates a random 5x5 card (with a free center), calls numbers from 1–75, and lets the player mark their card. The game ends when a row, column, or diagonal is fully marked.</p>
+        <p><strong>Tech Stack:</strong> C</p>
+        <p><strong>Role:</strong> Designed and implemented the card generator, random number caller, win detection logic, and user interaction loop.</p>
+        <p><strong>Challenges:</strong> Ensured unique number generation per column, implemented efficient win checks, and created a user-friendly CLI experience.</p>
+        <p><strong>How to Play:</strong> Compile with <code>gcc bingo.c -o bingo</code> and run <code>./bingo</code>. Mark numbers as prompted; win by completing a row, column, or diagonal.</p>
+      </div>
+    </section>
+
+    <section id="achievements" class="achievements-section" style="background-color: #1a1a1a; padding: 60px 20px; text-align: center; color: #f1f1f1;">
+      <h2 style="font-size: 2.5rem; color: #ffda77; margin-bottom: 30px;">🏆 Achievements & Certifications</h2>
+
+      <div class="grid-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto;">
+        <div class="grid-item" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'});" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/hackuta.png" alt="HackUTA" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>Best Use of Gemini API – HackUTA 2025</strong>
+        </div>
+
+        <div class="grid-item" style="background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/instem.png" alt="InStem UTA" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>Selected Scholar – InSTEM UTA</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/300ef5704c03ca3894210f8a01d3203c', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/ibm.png" alt="IBM" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>IBM – Python for Data Science</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/99ad3d20d0f2cd1d7cb06455af9de46c', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/ucdavis.png" alt="UC Davis" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>UC Davis – SQL for Data Science</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/7fc113c0df1e1776ca9f08d060af4d5f', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/umich1.png" alt="U Michigan" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>UM – Python Data Structures</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/ab9d648ce15f536b7d7ffdcb8e943c27', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/google.png" alt="Google" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>Google – Crash Course on Python</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/f1bfd50b011c15dd2094436603e569a8', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/umich1.png" alt="U Michigan" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>UM – Programming for Everybody</strong>
+        </div>
       </div>
     </section>
 
@@ -463,7 +532,6 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
   </div>
 
   <script>
-    // Typing effect
     const words = [
       "Software Engineer",
       "Problem Solver",
@@ -520,17 +588,15 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
           skillItems.forEach((item, i) => {
             setTimeout(() => {
               item.classList.add('animated');
-            }, i * 150); // Delay each skill's animation
+            }, i * 150); // Delay each skill animation
           });
-          skillObserver.unobserve(skillSection); // Stop observing after animation
+          skillObserver.unobserve(skillSection);
 
         }
       });
     }, { threshold: 0.3 });
 
     skillObserver.observe(skillSection);
-
-    // Animate experience cards on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
