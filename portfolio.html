@@ -823,7 +823,7 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
       aiDiv.textContent = "Darshan's AI is typing...";
       chatWindow.appendChild(aiDiv);
       chatWindow.scrollTop = chatWindow.scrollHeight;
-      const res = await fetch("http://localhost:8000/chat", {
+      const res = await fetch("https://portfoliobackend-0o3e.onrender.com/chat", {
         method: "POST",
         body: formData
       });
