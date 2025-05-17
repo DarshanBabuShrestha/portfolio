@@ -332,6 +332,167 @@
     .project-card a:hover {
       text-decoration: underline;
     }
+
+    /* Chatbot Styles */
+    #chatbot-button {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #ffda77;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: black;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    #chatbot-container {
+      display: none; /* Keep it hidden initially */
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 350px;
+      height: 450px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      z-index: 1000;
+      padding: 10px;
+      flex-direction: column;
+      /* Remove or DO NOT include display: flex here! */
+    }
+
+    #chatbot-header {
+      background: #2a2a2a;
+      color: #fff;
+      font-weight: bold;
+      font-size: 15px;
+      padding: 10px 12px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #333;
+    }
+
+    .bot-name {
+      flex-grow: 1;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #4caf50; /* green */
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-text {
+      font-size: 12px;
+      color: #a0ffa0;
+    }
+
+    #chat-window {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+      color: white;
+      font-size: 14px;
+    }
+
+    #chat-input-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    #chat-send {
+      padding: 8px 12px;
+      background-color: #ffda77;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: black;
+      transition: background 0.3s;
+    }
+
+    #chat-send:hover {
+      background-color: #ffd24a;
+    }
+
+    .chat-message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 80%;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .user-message {
+      background-color: #4fc3f7;
+      color: #000;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .ai-message {
+      background-color: #2a2a2a;
+      color: #fff;
+      align-self: flex-start;
+      text-align: left;
+    }
+
+    /* Notification Bubble Styles */
+    #chat-notify {
+      position: fixed;
+      bottom: 95px;
+      right: 100px;
+      background-color: #ffda77;
+      color: black;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    #chat-notify.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      #chatbot-container {
+        width: 90%;
+        right: 5%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -531,6 +692,27 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
     <img src="" alt="Full Size Image" class="fullscreen-image" id="fullscreenImage" />
   </div>
 
+  <div id="chatbot-button" onclick="toggleChatbot()">
+    💬
+  </div>
+
+  <!-- Notification bubble -->
+  <div id="chat-notify">Ask me about Darshan!</div>
+
+  <div id="chatbot-container">
+    <!-- Top Bar -->
+    <div id="chatbot-header">
+      <span class="bot-name">Darshan's Bot</span>
+      <span class="status-dot"></span>
+      <span class="status-text">Active now</span>
+    </div>
+    <div id="chat-window"></div>
+    <div id="chat-input-container">
+      <input id="chat-input" type="text" placeholder="Ask me about Darshan..." />
+      <button id="chat-send" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
   <script>
     const words = [
       "Software Engineer",
@@ -607,6 +789,72 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
 
     document.querySelectorAll('.experience-card').forEach((card) => {
       observer.observe(card);
+    });
+
+    // Chatbot logic
+    function toggleChatbot() {
+      const container = document.getElementById('chatbot-container');
+      if (container.style.display === 'flex') {
+        container.style.display = 'none';
+      } else {
+        container.style.display = 'flex';
+      }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const chatWindow = document.getElementById('chat-window');
+      const message = input.value;
+      if (!message.trim()) return;
+
+      // User message
+      const userDiv = document.createElement("div");
+      userDiv.className = "chat-message user-message";
+      userDiv.textContent = message;
+      chatWindow.appendChild(userDiv);
+      input.value = "";
+
+      const formData = new FormData();
+      formData.append("query", message);
+
+      const aiDiv = document.createElement("div");
+      aiDiv.className = "chat-message ai-message";
+      aiDiv.id = "typing-indicator";
+      aiDiv.textContent = "Darshan's AI is typing...";
+      chatWindow.appendChild(aiDiv);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+
+      const typingIndicator = document.getElementById("typing-indicator");
+      if (typingIndicator) typingIndicator.remove();
+
+      const finalAiDiv = document.createElement("div");
+      finalAiDiv.className = "chat-message ai-message";
+      chatWindow.appendChild(finalAiDiv);
+      let index = 0;
+      const aiText = data.response;
+      function typeLetterByLetter() {
+        if (index < aiText.length) {
+          finalAiDiv.textContent += aiText.charAt(index);
+          index++;
+          setTimeout(typeLetterByLetter, 20);
+        }
+      }
+      typeLetterByLetter();
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+    setTimeout(() => {
+      const notify = document.getElementById("chat-notify");
+      notify.classList.add("show");
+    }, 2000); // Initial delay before showing
+
+    document.getElementById("chatbot-button").addEventListener("click", function() {
+      const notify = document.getElementById("chat-notify");
+      notify.classList.remove("show");
     });
   </script>
 
