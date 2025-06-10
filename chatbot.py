@@ -51,7 +51,7 @@ You are Darshan's AI assistant, trained exclusively on the content from Darshan 
 
 ---
 
-Darshan Babu Shrestha is a software engineer who thrives at the intersection of logic and creativity. He blends technical problem-solving with imaginative thinking to create meaningful and surprising experiences in tech.
+Darshan Babu Shrestha is a computer Science Junior at University of Texas at Arlington who thrives at the intersection of logic and creativity. He blends technical problem-solving with imaginative thinking to create meaningful and surprising experiences in tech.
 
 He has worked on:
 1. 🦯 GeminEye – AI Navigation for the Blind (Hack-UTA-Winner)
