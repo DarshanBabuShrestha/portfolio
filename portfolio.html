@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Darshan Babu Shrestha</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Yatra+One&display=swap" rel="stylesheet">
-
   <style>
     * {
       margin: 0;
@@ -823,206 +821,34 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
       </div>
     </section>
 
-  </div>
-
-  <div class="fullscreen-overlay" id="fullscreenOverlay">
-    <span class="close-button" onclick="closeFullscreen()">&times;</span>
-    <img src="" alt="Full Size Image" class="fullscreen-image" id="fullscreenImage" />
-  </div>
-
-  <div id="chatbot-button" onclick="toggleChatbot()">
-    💬
-  </div>
-
-  <!-- Notification bubble -->
-  <div id="chat-notify">Ask me about Darshan!</div>
-
-  <div id="chatbot-container">
-    <!-- Top Bar -->
-    <div id="chatbot-header">
-      <span class="bot-name">Darshan's Bot</span>
-      <span class="status-dot"></span>
-      <span class="status-text">Active now</span>
-    </div>
-    <div id="chat-window"></div>
-    <div id="chat-input-container">
-      <input id="chat-input" type="text" placeholder="Ask me about Darshan..." />
-      <button id="chat-send" onclick="sendMessage()">Send</button>
-    </div>
-  </div>
-
-  <script>
-    const words = [
-      "Software Engineer",
-      "Problem Solver",
-      "Tech Enthusiast",
-      "Creative Builder",
-      "Lifelong Learner"
-    ];
-    const typedText = document.getElementById("typedText");
-
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    function type() {
-      const currentWord = words[wordIndex];
-      const displayed = currentWord.substring(0, charIndex);
-      typedText.textContent = displayed;
-      typedText.style.width = (displayed.length + 1) + "ch";
-
-      if (!isDeleting && charIndex < currentWord.length) {
-        charIndex++;
-        setTimeout(type, 120);
-      } else if (isDeleting && charIndex > 0) {
-        charIndex--;
-        setTimeout(type, 60);
-      } else {
-        isDeleting = !isDeleting;
-        if (!isDeleting) wordIndex = (wordIndex + 1) % words.length;
-        setTimeout(type, 1000);
-      }
-    }
-
-    type();
-
-    // Fullscreen image logic
-    function openFullscreen(imageSrc) {
-      const overlay = document.getElementById('fullscreenOverlay');
-      const image = document.getElementById('fullscreenImage');
-      image.src = imageSrc;
-      overlay.classList.add('open');
-    }
-
-    function closeFullscreen() {
-      document.getElementById('fullscreenOverlay').classList.remove('open');
-    }
-
-    // Animate skills one by one
-    const skillSection = document.querySelector('#skills');
-    const skillItems = document.querySelectorAll('.skill-item');
-
-    const skillObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          skillItems.forEach((item, i) => {
-            setTimeout(() => {
-              item.classList.add('animated');
-            }, i * 150); // Delay each skill animation
-          });
-          skillObserver.unobserve(skillSection);
-
-        }
+    <section id="contact" class="contact-section" style="background-color: #111; padding: 60px 20px; text-align: center; color: #f1f1f1;">
+      <h2 style="font-size: 2.5rem; color: #ffda77; margin-bottom: 30px;">📬 Get in Touch</h2>
+      <p style="font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Interested in collaborating, have a question, or just want to say hi? I’d love to hear from you! Fill out the form below or connect with me on LinkedIn.
+      </p>
+      <form id="contactForm" style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px;">
+        <input type="text" name="name" id="contactName" placeholder="Your Name" required style="padding: 12px; border-radius: 6px; border: none; font-size: 1rem;" />
+        <input type="email" name="email" id="contactEmail" placeholder="Your Email" required style="padding: 12px; border-radius: 6px; border: none; font-size: 1rem;" />
+        <textarea name="message" id="contactMessage" placeholder="Your Message" rows="5" required style="padding: 12px; border-radius: 6px; border: none; font-size: 1rem;"></textarea>
+        <button type="submit" style="padding: 12px; background: #ffda77; color: black; border: none; border-radius: 6px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: background 0.3s;">Send Message</button>
+      </form>
+      <div id="contactStatus" style="margin-top: 18px; font-size: 1.1rem;"></div>
+      <div style="margin-top: 30px;">
+        <a href="https://www.linkedin.com/in/darshan-babu-shrestha-1076b3212/" target="_blank" style="color: #ffda77; font-size: 1.2rem; text-decoration: underline;">Connect on LinkedIn</a>
+      </div>
+    </section>
+    <script>
+      document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const message = document.getElementById('contactMessage').value;
+        // Construct mailto link
+        const subject = encodeURIComponent('Portfolio Contact Form: Message from ' + name + ' (' + email + ')');
+        const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message);
+        window.location.href = `mailto:darshanshrestha454@gmail.com?subject=${subject}&body=${body}`;
       });
-    }, { threshold: 0.3 });
-
-    skillObserver.observe(skillSection);
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.experience-card').forEach((card) => {
-      observer.observe(card);
-    });
-
-    // Chatbot logic
-    function toggleChatbot() {
-      const container = document.getElementById('chatbot-container');
-      if (container.style.display === 'flex') {
-        container.style.display = 'none';
-      } else {
-        container.style.display = 'flex';
-      }
-    }
-
-    async function sendMessage() {
-      const input = document.getElementById('chat-input');
-      const chatWindow = document.getElementById('chat-window');
-      const message = input.value;
-      if (!message.trim()) return;
-
-      // User message
-      const userDiv = document.createElement("div");
-      userDiv.className = "chat-message user-message";
-      userDiv.textContent = message;
-      chatWindow.appendChild(userDiv);
-      input.value = "";
-
-      const formData = new FormData();
-      formData.append("query", message);
-
-      const aiDiv = document.createElement("div");
-      aiDiv.className = "chat-message ai-message";
-      aiDiv.id = "typing-indicator";
-      aiDiv.textContent = "Darshan's AI is typing...";
-      chatWindow.appendChild(aiDiv);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-      const res = await fetch("https://portfoliobackend-0o3e.onrender.com/chat", {
-        method: "POST",
-        body: formData
-      });
-      const data = await res.json();
-
-      const typingIndicator = document.getElementById("typing-indicator");
-      if (typingIndicator) typingIndicator.remove();
-
-      const finalAiDiv = document.createElement("div");
-      finalAiDiv.className = "chat-message ai-message";
-      chatWindow.appendChild(finalAiDiv);
-      let index = 0;
-      const aiText = data.response;
-      function typeLetterByLetter() {
-        if (index < aiText.length) {
-          finalAiDiv.textContent += aiText.charAt(index);
-          index++;
-          setTimeout(typeLetterByLetter, 20);
-        }
-      }
-      typeLetterByLetter();
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-    setTimeout(() => {
-      const notify = document.getElementById("chat-notify");
-      notify.classList.add("show");
-    }, 2000); // Initial delay before showing
-
-    document.getElementById("chatbot-button").addEventListener("click", function() {
-      const notify = document.getElementById("chat-notify");
-      notify.classList.remove("show");
-    });
-
-    // Tooltip for Namaste
-    function showNamasteTooltip(event) {
-      const tooltip = document.getElementById('namaste-tooltip');
-      tooltip.style.display = 'block';
-      // Position tooltip below the text, centered
-      const rect = event.target.getBoundingClientRect();
-      tooltip.style.left = '50%';
-      tooltip.style.top = '110%';
-    }
-    function hideNamasteTooltip() {
-      const tooltip = document.getElementById('namaste-tooltip');
-      tooltip.style.display = 'none';
-    }
-
-    // Toggle project description on PNG click
-    const toggleImgs = document.querySelectorAll('.project-toggle-img');
-    toggleImgs.forEach(img => {
-      img.addEventListener('click', function() {
-        const targetId = img.getAttribute('data-target');
-        const desc = document.getElementById(targetId);
-        if (desc.style.display === 'none' || desc.style.display === '') {
-          desc.style.display = 'block';
-        } else {
-          desc.style.display = 'none';
-        }
-      });
-    });
-  </script>
-
+    </script>
+  </div>
 </body>
 </html>
