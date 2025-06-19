@@ -523,19 +523,23 @@
       }
     }
 
-    header nav ul li a:hover, header nav ul li a:focus {
-      background: #ffda77;
-      color: #181818;
-      text-shadow: 0 2px 8px rgba(255,218,119,0.12);
-    }
     @media (max-width: 700px) {
-      header nav ul {
+      .main-nav ul {
+        display: none !important;
         flex-direction: column;
-        gap: 0;
+        background: #181818;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 100vw;
+        padding: 0;
+        z-index: 15;
       }
-      header nav ul li a {
-        padding: 14px 10px;
-        font-size: 1rem;
+      .main-nav ul.open {
+        display: flex !important;
+      }
+      .hamburger {
+        display: flex !important;
       }
     }
 
@@ -605,17 +609,57 @@
   </video>
 
   <header style="width: 100%; background: #181818; padding: 0; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 12px rgba(0,0,0,0.18);">
-    <nav style="display: flex; justify-content: center; align-items: center; gap: 8px; padding: 0;">
-      <ul style="display: flex; list-style: none; margin: 0; padding: 0;">
-        <li><a href="#about" style="display: block; color: #ffda77; padding: 18px 22px; text-decoration: none; font-weight: bold; font-size: 1.1rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">About</a></li>
-        <li><a href="#skills" style="display: block; color: #ffda77; padding: 18px 22px; text-decoration: none; font-weight: bold; font-size: 1.1rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Tech Stack</a></li>
-        <li><a href="#experience" style="display: block; color: #ffda77; padding: 18px 22px; text-decoration: none; font-weight: bold; font-size: 1.1rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Experience</a></li>
-        <li><a href="#projects" style="display: block; color: #ffda77; padding: 18px 22px; text-decoration: none; font-weight: bold; font-size: 1.1rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Projects</a></li>
-        <li><a href="#achievements" style="display: block; color: #ffda77; padding: 18px 22px; text-decoration: none; font-weight: bold; font-size: 1.1rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Achievements</a></li>
-        <li><a href="#resume" style="display: block; color: #ffda77; padding: 18px 22px; text-decoration: none; font-weight: bold; font-size: 1.1rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Resume</a></li>
+    <nav class="main-nav" style="display: flex; justify-content: center; align-items: center; gap: 8px; padding: 0; position: relative;">
+      <div class="hamburger" id="hamburger" style="display: none; flex-direction: column; cursor: pointer; position: absolute; left: 16px; top: 16px; z-index: 20;">
+        <span style="width: 28px; height: 3px; background: #ffda77; margin: 5px 0; border-radius: 2px; display: block;"></span>
+        <span style="width: 28px; height: 3px; background: #ffda77; margin: 5px 0; border-radius: 2px; display: block;"></span>
+        <span style="width: 28px; height: 3px; background: #ffda77; margin: 5px 0; border-radius: 2px; display: block;"></span>
+      </div>
+      <ul id="navLinks" style="display: flex; flex-wrap: wrap; list-style: none; margin: 0; padding: 0;">
+        <li><a href="#about" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">About</a></li>
+        <li><a href="#skills" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Tech Stack</a></li>
+        <li><a href="#experience" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Experience</a></li>
+        <li><a href="#projects" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Projects</a></li>
+        <li><a href="#achievements" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Achievements</a></li>
+        <li><a href="#resume" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Resume</a></li>
       </ul>
     </nav>
   </header>
+  <style>
+    @media (max-width: 700px) {
+      .main-nav ul {
+        display: none !important;
+        flex-direction: column;
+        background: #181818;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 100vw;
+        padding: 0;
+        z-index: 15;
+      }
+      .main-nav ul.open {
+        display: flex !important;
+      }
+      .hamburger {
+        display: flex !important;
+      }
+    }
+  </style>
+  <script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', function() {
+      navLinks.classList.toggle('open');
+    });
+    // Close menu on link click (mobile)
+    Array.from(navLinks.getElementsByTagName('a')).forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 700) navLinks.classList.remove('open');
+      });
+    });
+  </script>
 
   <div class="scroll-container">
 
