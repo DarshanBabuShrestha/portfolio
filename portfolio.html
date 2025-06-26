@@ -367,10 +367,11 @@
       position: fixed;
       bottom: 25px;
       right: 25px;
-      background: #ffda77;
+      left: auto;
+      background: #fff;
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
+      width: 90px;
+      height: 90px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -380,7 +381,12 @@
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
       z-index: 1000;
+      transition: box-shadow 0.3s;
     }
+    #chatbot-button:hover {
+      box-shadow: 0 8px 24px #ffda77cc;
+    }
+    .circle-text { display: none !important; }
 
     #chatbot-container {
       display: none; /* Keep it hidden initially */
@@ -622,6 +628,7 @@
         <li><a href="#projects" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Projects</a></li>
         <li><a href="#achievements" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Achievements</a></li>
         <li><a href="#resume" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Resume</a></li>
+        <li><a href="bored.html" target="_blank" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Bored?</a></li>
       </ul>
     </nav>
   </header>
@@ -739,10 +746,10 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
     <section id="experience" class="experience-section">
       <h2>Experience</h2>
       <div class="experience-cards">
-        <div class="experience-card">
+        <div class="experience-card" style="cursor: pointer;" onclick="openFullscreen('assets/tlt.jpg')">
           <h3>Website Development Intern</h3>
           <h4>Tomorrow’s Leaders Today (TLT)</h4>
-          <img src="assets/TLT2.png" alt="TLT Logo" style="width: 100px; margin: 10px auto; display: block;" />
+          <img src="assets/TLT2.png" alt="TLT Certificate" style="width: 100px; margin: 10px auto 18px auto; display: block; border-radius: 8px; box-shadow: 0 2px 8px #0006;" />
           <p><strong>Time:</strong> Summer 2025</p>
           <p>Redesign and maintain the organization’s website for better user engagement. Attended weekly team strategy sessions and collaborate with stakeholders to implement new features, perform SEO improvements, and build dynamic content.</p>
         </div>
@@ -756,10 +763,10 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
       </div>
     </section>
 
-<section id="projects" class="projects-section">
-  <h2>Personal Projects</h2>
-  <div class="project-grid">
-    <!-- GeminEye -->
+    <section id="projects" class="projects-section">
+      <h2>Personal Projects</h2>
+      <div class="project-grid">
+        <!-- GeminEye -->
 <!-- GeminEye Card -->
 <div class="project-card" style="max-width: 400px; margin: auto;">
   <h3 style="text-align: center; margin-bottom: 18px;">GeminEye–AI Navigation for the Blind</h3>
@@ -1161,6 +1168,38 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
 
 
 
+<!-- Customer Churn Prediction Project Card -->
+      <div class="project-card" style="max-width: 400px; margin: auto;">
+        <h3 style="text-align: center; margin-bottom: 18px;">Customer Churn Prediction</h3>
+        <img src="assets/customerchurn.png" alt="Churn Prediction Icon"
+             style="width: 100%; height: 190px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; cursor: pointer;"
+             onclick="document.getElementById('churnModal').style.display='block'">
+      </div>
+      <!-- Customer Churn Prediction Modal -->
+      <div id="churnModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.8); z-index:9999; overflow-y:auto;">
+        <div style="background-color:#1a1a1a; color:#fff; max-width: 900px; margin: 60px auto; padding: 30px; border-radius: 16px; position:relative;">
+          <span onclick="document.getElementById('churnModal').style.display='none'"
+                style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
+          <h2 style="margin-top: 0;">Customer Churn Prediction</h2>
+          <p><strong>📖 Overview:</strong><br>
+            Developed a machine learning solution to predict customer churn for a telecom company. Used Python (pandas, scikit-learn) for data cleaning, feature engineering, and model training. Achieved strong accuracy with Random Forest and Logistic Regression, and visualized key churn factors for actionable business insights.
+          </p>
+          <hr style="border: 0; height: 1px; background: #444; margin: 20px 0;">
+          <p><strong>🔑 Key Features:</strong></p>
+          <ul style="list-style: none; padding-left: 0;">
+            <li>• Data preprocessing and EDA on telecom customer data</li>
+            <li>• Feature selection and engineering</li>
+            <li>• Model training (Random Forest, Logistic Regression)</li>
+            <li>• Evaluation with accuracy, precision, recall, ROC</li>
+            <li>• Visualization of churn drivers and business recommendations</li>
+          </ul>
+          <p style="margin-top: 20px;">
+            🔗 <a href="https://github.com/DarshanBabuShrestha/Customer-Churn-Prediction" target="_blank" style="color: #00bfff;">View on GitHub</a>
+          </p>
+        </div>
+      </div>
+
+
 <!-- Java Stock Management System Card -->
 <div class="project-card" style="max-width: 400px; margin: auto;">
   <h3 style="text-align: center; margin-bottom: 18px;">Java Stock Management System</h3>
@@ -1332,11 +1371,8 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
   </div>
 
   <div id="chatbot-button" onclick="toggleChatbot()">
-    💬
+    <img src="assets/message.gif" alt="Message Icon" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" />
   </div>
-
-  <!-- Notification bubble -->
-  <div id="chat-notify">Ask me about Darshan!</div>
 
   <div id="chatbot-container">
     <!-- Top Bar -->
@@ -1353,40 +1389,6 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
   </div>
 
   <script>
-    const words = [
-      "Software Engineer",
-      "Problem Solver",
-      "Tech Enthusiast",
-      "Creative Builder",
-      "Lifelong Learner"
-    ];
-    const typedText = document.getElementById("typedText");
-
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    function type() {
-      const currentWord = words[wordIndex];
-      const displayed = currentWord.substring(0, charIndex);
-      typedText.textContent = displayed;
-      typedText.style.width = (displayed.length + 1) + "ch";
-
-      if (!isDeleting && charIndex < currentWord.length) {
-        charIndex++;
-        setTimeout(type, 120);
-      } else if (isDeleting && charIndex > 0) {
-        charIndex--;
-        setTimeout(type, 60);
-      } else {
-        isDeleting = !isDeleting;
-        if (!isDeleting) wordIndex = (wordIndex + 1) % words.length;
-        setTimeout(type, 1000);
-      }
-    }
-
-    type();
-
     // Fullscreen image logic
     function openFullscreen(imageSrc) {
       const overlay = document.getElementById('fullscreenOverlay');
@@ -1456,12 +1458,14 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
       const formData = new FormData();
       formData.append("query", message);
 
+      // Show typing.gif while waiting for backend
       const aiDiv = document.createElement("div");
       aiDiv.className = "chat-message ai-message";
       aiDiv.id = "typing-indicator";
-      aiDiv.textContent = "Darshan's AI is typing...";
+      aiDiv.innerHTML = '<img src="assets/typing.gif" alt="Typing..." style="height:32px;">';
       chatWindow.appendChild(aiDiv);
       chatWindow.scrollTop = chatWindow.scrollHeight;
+
       const res = await fetch("https://portfoliobackend-0o3e.onrender.com/chat", {
         method: "POST",
         body: formData
@@ -1473,17 +1477,8 @@ I don’t just fix bugs. I build things that make people pause, smile, and think
 
       const finalAiDiv = document.createElement("div");
       finalAiDiv.className = "chat-message ai-message";
+      finalAiDiv.textContent = data.response; // Show full response instantly
       chatWindow.appendChild(finalAiDiv);
-      let index = 0;
-      const aiText = data.response;
-      function typeLetterByLetter() {
-        if (index < aiText.length) {
-          finalAiDiv.textContent += aiText.charAt(index);
-          index++;
-          setTimeout(typeLetterByLetter, 20);
-        }
-      }
-      typeLetterByLetter();
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
     setTimeout(() => {

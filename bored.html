@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bored Game - Paddle Ball</title>
+  <style>
+    body {
+      margin: 0;
+      background: #181818;
+      color: #fff;
+      font-family: 'Merriweather', serif;
+      overflow: hidden;
+    }
+    #difficulty-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    #difficulty-modal h2 {
+      margin-bottom: 24px;
+      color: #ffda77;
+    }
+    .difficulty-btn {
+      background: #ffda77;
+      color: #181818;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 14px 36px;
+      margin: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .difficulty-btn:hover {
+      background: #ffd24a;
+    }
+    #score {
+      position: absolute;
+      top: 18px;
+      right: 32px;
+      font-size: 1.5rem;
+      color: #ffda77;
+      font-weight: bold;
+      z-index: 2;
+      background: rgba(0,0,0,0.4);
+      padding: 8px 18px;
+      border-radius: 8px;
+    }
+    html, body, #gameCanvas {
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #232323;
+      border-bottom: 4px solid #ffda77;
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+    #game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.85);
+      color: #ffda77;
+      font-size: 2.2rem;
+      font-weight: bold;
+      padding: 40px 60px;
+      border-radius: 18px;
+      text-align: center;
+      z-index: 20;
+      display: none;
+    }
+    #restart-btn {
+      margin-top: 24px;
+      background: #ffda77;
+      color: #181818;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 12px 32px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #restart-btn:hover {
+      background: #ffd24a;
+    }
+    #settings-btn {
+      position: absolute;
+      top: 18px;
+      left: 32px;
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px #0004;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 3;
+      transition: background 0.2s;
+    }
+    #settings-btn:hover {
+      background: #ffda77;
+    }
+    #settings-btn img {
+      width: 26px;
+      height: 26px;
+    }
+    #settings-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+    }
+    #settings-modal .modal-content {
+      background: #fff;
+      color: #181818;
+      border-radius: 16px;
+      padding: 36px 48px;
+      text-align: center;
+      min-width: 260px;
+      box-shadow: 0 4px 24px #0006;
+    }
+    #settings-modal button {
+      background: #ffda77;
+      color: #181818;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 12px 32px;
+      margin: 16px 0 0 0;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    #settings-modal button:hover {
+      background: #ffd24a;
+    }
+  </style>
+</head>
+<body>
+  <div id="difficulty-modal">
+    <h2>Choose Difficulty</h2>
+    <button class="difficulty-btn" onclick="startGame('easy')">Easy</button>
+    <button class="difficulty-btn" onclick="startGame('medium')">Medium</button>
+    <button class="difficulty-btn" onclick="startGame('hard')">Hard</button>
+  </div>
+  <div id="score">Score: 0</div>
+  <canvas id="gameCanvas"></canvas>
+  <div id="game-over">
+    Game Over!<br>
+    <span id="final-score"></span><br>
+    <button id="restart-btn" onclick="restartGame()">Restart</button>
+  </div>
+  <button id="settings-btn" onclick="openSettings()" title="Settings">
+    <img src="assets/setting.gif" alt="Settings" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover;" />
+  </button>
+  <div id="settings-modal">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 24px;">Game Settings</h3>
+      <button onclick="exitGame()">Exit Game</button>
+      <button onclick="closeSettings()" style="background:#eee; color:#181818; margin-top:12px;">Close</button>
+    </div>
+  </div>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    let paddleWidth = 120;
+    let paddleHeight = 18;
+    let paddleX = (canvas.width - paddleWidth) / 2;
+    let paddleY = canvas.height - paddleHeight - 10;
+    let ballRadius = 13;
+    let ballX = canvas.width / 2;
+    let ballY = canvas.height / 2;
+    let ballSpeedX = 0;
+    let ballSpeedY = 0;
+    let score = 0;
+    let isGameOver = false;
+    let animationId;
+    let difficulty = 'easy';
+    let speedMap = { easy: 4, medium: 7, hard: 10 };
+    let ballColor = '#ffda77';
+    let isPaused = false;
+    let isDraggingBall = false;
+
+    function drawPaddle() {
+      ctx.beginPath();
+      ctx.roundRect(paddleX, paddleY, paddleWidth, paddleHeight, 10);
+      ctx.fillStyle = '#2196f3';
+      ctx.fill();
+      ctx.closePath();
+    }
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      ctx.fillStyle = ballColor;
+      ctx.shadowColor = '#ffda77';
+      ctx.shadowBlur = 12;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.closePath();
+    }
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawPaddle();
+      drawBall();
+    }
+    function update() {
+      if (isGameOver || isPaused) return;
+      ballX += ballSpeedX;
+      ballY += ballSpeedY;
+      // Wall collision
+      if (ballX + ballRadius > canvas.width || ballX - ballRadius < 0) {
+        ballSpeedX = -ballSpeedX;
+      }
+      if (ballY - ballRadius < 0) {
+        ballSpeedY = -ballSpeedY;
+      }
+      // Paddle collision
+      if (
+        ballY + ballRadius >= paddleY &&
+        ballX >= paddleX &&
+        ballX <= paddleX + paddleWidth &&
+        ballY + ballRadius <= paddleY + paddleHeight + 10
+      ) {
+        ballSpeedY = -Math.abs(ballSpeedY);
+        score++;
+        document.getElementById('score').textContent = 'Score: ' + score;
+        // Add a little randomness
+        ballSpeedX += (Math.random() - 0.5) * 0.8;
+      }
+      // Missed paddle
+      if (ballY - ballRadius > canvas.height) {
+        endGame();
+        return;
+      }
+      draw();
+      animationId = requestAnimationFrame(update);
+    }
+    function endGame() {
+      isGameOver = true;
+      document.getElementById('game-over').style.display = 'block';
+      document.getElementById('final-score').textContent = 'Your Score: ' + score;
+      cancelAnimationFrame(animationId);
+    }
+    function restartGame() {
+      document.getElementById('game-over').style.display = 'none';
+      document.getElementById('score').textContent = 'Score: 0';
+      score = 0;
+      isGameOver = false;
+      ballX = canvas.width / 2;
+      ballY = canvas.height / 2;
+      setBallSpeed(difficulty);
+      animationId = requestAnimationFrame(update);
+    }
+    function setBallSpeed(diff) {
+      let speed = speedMap[diff];
+      ballSpeedX = speed * (Math.random() > 0.5 ? 1 : -1);
+      ballSpeedY = -speed;
+    }
+    function startGame(diff) {
+      difficulty = diff;
+      setBallSpeed(diff);
+      document.getElementById('difficulty-modal').style.display = 'none';
+      animationId = requestAnimationFrame(update);
+    }
+    canvas.addEventListener('mousedown', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      let mouseX = e.clientX - rect.left;
+      let mouseY = e.clientY - rect.top;
+      // Check if mouse is on the ball
+      if (Math.hypot(mouseX - ballX, mouseY - ballY) <= ballRadius) {
+        isDraggingBall = true;
+      }
+    });
+    canvas.addEventListener('mouseup', function() {
+      isDraggingBall = false;
+    });
+    canvas.addEventListener('mouseleave', function() {
+      isDraggingBall = false;
+    });
+    canvas.addEventListener('mousemove', function(e) {
+      if (isDraggingBall) {
+        const rect = canvas.getBoundingClientRect();
+        let mouseX = e.clientX - rect.left;
+        let mouseY = e.clientY - rect.top;
+        ballX = mouseX;
+        ballY = mouseY;
+        draw();
+      } else {
+        // Paddle movement
+        const rect = canvas.getBoundingClientRect();
+        let mouseX = e.clientX - rect.left;
+        paddleX = mouseX - paddleWidth / 2;
+        if (paddleX < 0) paddleX = 0;
+        if (paddleX + paddleWidth > canvas.width) paddleX = canvas.width - paddleWidth;
+        paddleY = canvas.height - paddleHeight - 10;
+      }
+    });
+    // For touch devices
+    canvas.addEventListener('touchstart', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      let touchX = e.touches[0].clientX - rect.left;
+      let touchY = e.touches[0].clientY - rect.top;
+      if (Math.hypot(touchX - ballX, touchY - ballY) <= ballRadius) {
+        isDraggingBall = true;
+      }
+    });
+    canvas.addEventListener('touchend', function() {
+      isDraggingBall = false;
+    });
+    canvas.addEventListener('touchcancel', function() {
+      isDraggingBall = false;
+    });
+    canvas.addEventListener('touchmove', function(e) {
+      if (isDraggingBall) {
+        const rect = canvas.getBoundingClientRect();
+        let touchX = e.touches[0].clientX - rect.left;
+        let touchY = e.touches[0].clientY - rect.top;
+        ballX = touchX;
+        ballY = touchY;
+        draw();
+      } else {
+        // Paddle movement
+        const rect = canvas.getBoundingClientRect();
+        let touchX = e.touches[0].clientX - rect.left;
+        paddleX = touchX - paddleWidth / 2;
+        if (paddleX < 0) paddleX = 0;
+        if (paddleX + paddleWidth > canvas.width) paddleX = canvas.width - paddleWidth;
+        paddleY = canvas.height - paddleHeight - 10;
+      }
+    });
+    // Redraw paddle and ball on resize
+    window.addEventListener('resize', function() {
+      paddleY = canvas.height - paddleHeight - 10;
+      if (paddleX + paddleWidth > canvas.width) paddleX = canvas.width - paddleWidth;
+      if (paddleX < 0) paddleX = 0;
+      draw();
+    });
+    function openSettings() {
+      document.getElementById('settings-modal').style.display = 'flex';
+    }
+    function closeSettings() {
+      document.getElementById('settings-modal').style.display = 'none';
+    }
+    function exitGame() {
+      document.getElementById('settings-modal').style.display = 'none';
+      document.getElementById('game-over').style.display = 'none';
+      document.getElementById('difficulty-modal').style.display = 'flex';
+      // Reset game state
+      score = 0;
+      isGameOver = false;
+      isPaused = false;
+      document.getElementById('score').textContent = 'Score: 0';
+      ballX = canvas.width / 2;
+      ballY = canvas.height / 2;
+      draw();
+    }
+    // Draw initial state
+    draw();
+    // Optionally, allow ESC to close settings
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeSettings();
+    });
+  </script>
+</body>
+</html>
