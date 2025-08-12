@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Darshan Babu Shrestha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Yatra+One&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Merriweather', serif;
+      color: white;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .scroll-container {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    section {
+      scroll-snap-align: start;
+      min-height: 100vh;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .namaste {
+      font-family: 'Yatra One', cursive;
+      font-size: 3.5rem;
+      color: #ffda77;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .namaste #namaste-tooltip {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 110%;
+      background: #222;
+      color: #ffda77;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 1rem;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+
+    .namaste:hover #namaste-tooltip {
+      display: block;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .cta {
+      padding: 12px 30px;
+      font-size: 1rem;
+      background: #ffda77;
+      color: black;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .cta:hover {
+      background: #ffd24a;
+    }
+
+    .social-links {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-links a img {
+      width: 40px;
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .social-links a img:hover {
+      transform: scale(1.1);
+    }
+
+    .about-section {
+      background-color: #111;
+      padding: 80px 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .about-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 40px;
+      max-width: 1000px;
+    }
+
+    .about-photo {
+      width: 280px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+      transition: transform 0.4s ease;
+      cursor: pointer;
+    }
+
+    .about-photo:hover {
+      transform: scale(1.05);
+    }
+
+    .about-text {
+      flex: 1;
+      min-width: 280px;
+      color: #f1f1f1;
+    }
+
+    .about-text h2 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      color: #ffda77;
+    }
+
+    .about-text p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .fullscreen-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    }
+
+    .fullscreen-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease;
+    }
+
+    .fullscreen-image {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .close-button:hover {
+      opacity: 1;
+    }
+
+    .skills-section {
+      background-color: black;
+      padding: 60px 40px;
+    }
+
+    .skills-section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #ffda77;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .skill-item {
+      font-size: 1.1rem;
+      font-weight: bold;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .skill-item.animated{
+      animation: fadeSlideUp 0.6s ease-out forwards;
+    }
+
+    @keyframes fadeSlideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .namaste {
+        font-size: 2.5rem;
+      }
+
+      .about-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .about-text {
+        text-align: left;
+      }
+    }
+
+    /* Experience Section Styles */
+    .experience-section {
+      background-color: #1a1a1a;
+      color: #f1f1f1;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .experience-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #ffda77;
+    }
+
+    .experience-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .experience-card {
+      background-color: #2a2a2a;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .experience-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .experience-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #ffda77;
+    }
+
+    .experience-card h4 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #f1f1f1;
+    }
+
+    .experience-card p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Projects Section Styles */
+    .projects-section {
+      background-color: #111;
+      padding: 60px 20px;
+      text-align: center;
+      color: #f1f1f1;
+    }
+    .projects-section h2 {
+      font-size: 2.5rem;
+      color: #ffda77;
+      margin-bottom: 40px;
+    }
+    .project-card {
+      background-color: #2a2a2a;
+      padding: 15px; /* Match padding */
+      border-radius: 10px;
+      max-width: 180px; /* Match card width */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      text-align: center;
+      margin: auto; /* Center card */
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+      cursor: pointer;
+    }
+    .project-card:hover, .project-card:focus-within {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 8px 24px rgba(255,218,119,0.18), 0 2px 8px rgba(0,0,0,0.18);
+      background: #232323;
+      border: 1.5px solid #ffda77;
+    }
+    .project-card:hover h3, .project-card:focus-within h3 {
+      color: #ffda77;
+      text-shadow: 0 2px 8px rgba(255,218,119,0.12);
+    }
+    .project-card:hover a, .project-card:focus-within a {
+      background: #ffd24a;
+      color: #181818;
+    }
+    .project-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: filter 0.25s, box-shadow 0.25s;
+    }
+    .project-card:hover img, .project-card:focus-within img {
+      filter: brightness(1.08) drop-shadow(0 4px 16px #ffda77cc);
+    }
+
+    /* Chatbot Styles */
+    #chatbot-button {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      left: auto;
+      background: #fff;
+      border-radius: 50%;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: black;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 1000;
+      transition: box-shadow 0.3s;
+    }
+    #chatbot-button:hover {
+      box-shadow: 0 8px 24px #ffda77cc;
+    }
+    .circle-text { display: none !important; }
+
+    #chatbot-container {
+      display: none; /* Keep it hidden initially */
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 350px;
+      height: 450px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      z-index: 1000;
+      padding: 10px;
+      flex-direction: column;
+      /* Remove or DO NOT include display: flex here! */
+    }
+
+    #chatbot-header {
+      background: #2a2a2a;
+      color: #fff;
+      font-weight: bold;
+      font-size: 15px;
+      padding: 10px 12px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #333;
+    }
+
+    .bot-name {
+      flex-grow: 1;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #4caf50; /* green */
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-text {
+      font-size: 12px;
+      color: #a0ffa0;
+    }
+
+    #chat-window {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+      color: white;
+      font-size: 14px;
+    }
+
+    #chat-input-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    #chat-send {
+      padding: 8px 12px;
+      background-color: #ffda77;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: black;
+      transition: background 0.3s;
+    }
+
+    #chat-send:hover {
+      background-color: #ffd24a;
+    }
+
+    .chat-message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 80%;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .user-message {
+      background-color: #4fc3f7;
+      color: #000;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .ai-message {
+      background-color: #2a2a2a;
+      color: #fff;
+      align-self: flex-start;
+      text-align: left;
+    }
+
+    /* Notification Bubble Styles */
+    #chat-notify {
+      position: fixed;
+      bottom: 95px;
+      right: 100px;
+      background-color: #ffda77;
+      color: black;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    #chat-notify.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      #chatbot-container {
+        width: 90%;
+        right: 5%;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .main-nav ul {
+        display: none !important;
+        flex-direction: column;
+        background: #181818;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 100vw;
+        padding: 0;
+        z-index: 15;
+      }
+      .main-nav ul.open {
+        display: flex !important;
+      }
+      .hamburger {
+        display: flex !important;
+      }
+    }
+
+    nav {
+      width: 100%;
+      background: #181818;
+      padding: 12px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    nav a {
+      color: #ffda77;
+      margin: 0 18px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-shadow: 0 2px 8px rgba(255,218,119,0.12);
+    }
+
+    .achievements-section .grid-item {
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s, border 0.25s;
+    }
+    .achievements-section .grid-item:hover, .achievements-section .grid-item:focus-within {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 8px 24px rgba(33,150,243,0.18), 0 2px 8px rgba(0,0,0,0.18);
+      background: #232323;
+      border: 1.5px solid #2196f3;
+      cursor: pointer;
+    }
+    .achievements-section .grid-item:hover strong, .achievements-section .grid-item:focus-within strong {
+      color: #2196f3;
+      text-shadow: 0 2px 8px rgba(33,150,243,0.12);
+    }
+
+    .resume-section a {
+      display: inline-block;
+      padding: 16px 36px;
+      background: #ffda77;
+      color: #1a1a1a;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .resume-section a:hover, .resume-section a:focus {
+      background: #2196f3;
+      color: #fff;
+      box-shadow: 0 8px 32px rgba(33,150,243,0.18), 0 2px 8px rgba(0,0,0,0.18);
+      transform: translateY(-4px) scale(1.04);
+      text-shadow: 0 2px 8px rgba(33,150,243,0.12);
+    }
+
+  </style>
+</head>
+<body>
+
+  <video autoplay loop muted playsinline id="bg-video">
+    <source src="assets/portfolio1.mp4" type="video/mp4" />
+  </video>
+
+  <header style="width: 100%; background: #181818; padding: 0; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 12px rgba(0,0,0,0.18);">
+    <nav class="main-nav" style="display: flex; justify-content: center; align-items: center; gap: 8px; padding: 0; position: relative;">
+      <div class="hamburger" id="hamburger" style="display: none; flex-direction: column; cursor: pointer; position: absolute; left: 16px; top: 16px; z-index: 20;">
+        <span style="width: 28px; height: 3px; background: #ffda77; margin: 5px 0; border-radius: 2px; display: block;"></span>
+        <span style="width: 28px; height: 3px; background: #ffda77; margin: 5px 0; border-radius: 2px; display: block;"></span>
+        <span style="width: 28px; height: 3px; background: #ffda77; margin: 5px 0; border-radius: 2px; display: block;"></span>
+      </div>
+      <ul id="navLinks" style="display: flex; flex-wrap: wrap; list-style: none; margin: 0; padding: 0;">
+        <li><a href="#about" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">About</a></li>
+        <li><a href="#skills" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Tech Stack</a></li>
+        <li><a href="#experience" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Experience</a></li>
+        <li><a href="#projects" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Projects</a></li>
+        <li><a href="#achievements" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Achievements</a></li>
+        <li><a href="#resume" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Resume</a></li>
+        <li><a href="bored.html" target="_blank" style="display: block; color: #ffda77; padding: 8px 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 6px; transition: background 0.2s, color 0.2s;">Bored?</a></li>
+      </ul>
+    </nav>
+  </header>
+  <style>
+    @media (max-width: 700px) {
+      .main-nav ul {
+        display: none !important;
+        flex-direction: column;
+        background: #181818;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 100vw;
+        padding: 0;
+        z-index: 15;
+      }
+      .main-nav ul.open {
+        display: flex !important;
+      }
+      .hamburger {
+        display: flex !important;
+      }
+    }
+  </style>
+  <script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', function() {
+      navLinks.classList.toggle('open');
+    });
+    // Close menu on link click (mobile)
+    Array.from(navLinks.getElementsByTagName('a')).forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 700) navLinks.classList.remove('open');
+      });
+    });
+  </script>
+
+  <div class="scroll-container">
+
+    <section class="hero">
+      <div class="namaste" id="namasteText" onmouseenter="showNamasteTooltip(event)" onmouseleave="hideNamasteTooltip()">नमस्ते
+        <span id="namaste-tooltip" style="
+          display: none;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          top: 110%;
+          background: #222;
+          color: #ffda77;
+          padding: 7px 14px;
+          border-radius: 8px;
+          font-size: 1rem;
+          white-space: nowrap;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          z-index: 100;
+        ">Namaste – Nepali way to greet people</span>
+      </div>
+      <h1>I’m Darshan Babu Shrestha</h1>
+      <div id="typedText"></div>
+      <button class="cta" onclick="document.getElementById('about').scrollIntoView({ behavior: 'smooth' });">
+        Explore My Journey
+      </button>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/darshan-babu-shrestha-1076b3212/" target="_blank">
+          <img src="assets/linkedin.png" alt="LinkedIn" />
+        </a>
+        <a href="https://github.com/DarshanBabuShrestha" target="_blank">
+          <img src="assets/github.jpg" alt="GitHub" />
+        </a>
+      </div>
+    </section>
+
+    <section id="about" class="about-section">
+      <div class="about-container">
+        <img src="assets/me.jpeg" alt="Darshan at Paradox Museum" class="about-photo" onclick="openFullscreen(this.src)" />
+        <div class="about-text">
+          <h2>About Me</h2>
+          <p>
+Yeah, that’s me.
+Split in half, yet somehow whole just like the problems I solve in computer science.
+
+What you are looking at is an optical illusion from the Paradox Museum. But it says a lot about who I am: I live at the intersection of logic and creativity, structure and imagination.
+
+On one side, I am the grounded engineer writing clean code, building smart systems, solving real problems.
+On the other, I’m the playful creator asking “what if?”, designing experiences that surprise people, and seeing the world through a lens of curiosity.
+
+I don’t just fix bugs. I build things that make people pause, smile, and think twice.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="skills-section">
+      <h2>Tech Stack</h2>
+      <div class="skills-grid">
+        <div class="skill-item">Python</div>
+        <div class="skill-item">FastAPI</div>
+        <div class="skill-item">PyMuPDF</div>
+        <div class="skill-item">python-pptx</div>
+        <div class="skill-item">Gemini API</div>
+        <div class="skill-item">HTML &amp; CSS</div>
+        <div class="skill-item">JavaScript</div>
+        <div class="skill-item">OpenCV</div>
+        <div class="skill-item">Google Cloud Vision API</div>
+        <div class="skill-item">TTS</div>
+        <div class="skill-item">Pygame</div>
+        <div class="skill-item">Java</div>
+        <div class="skill-item">C</div>
+        <div class="skill-item">GitHub</div>
+      </div>
+    </section>
+
+    <section id="experience" class="experience-section">
+      <h2>Experience</h2>
+      <div class="experience-cards">
+        <div class="experience-card" style="cursor: pointer;" onclick="openFullscreen('assets/tlt.jpg')">
+          <h3>Website Development Intern</h3>
+          <h4>Tomorrow’s Leaders Today (TLT)</h4>
+          <img src="assets/TLT2.png" alt="TLT Certificate" style="width: 100px; margin: 10px auto 18px auto; display: block; border-radius: 8px; box-shadow: 0 2px 8px #0006;" />
+          <p><strong>Time:</strong> Summer 2025</p>
+          <p>Redesign and maintain the organization’s website for better user engagement. Attended weekly team strategy sessions and collaborate with stakeholders to implement new features, perform SEO improvements, and build dynamic content.</p>
+        </div>
+        <div class="experience-card">
+          <h3>Selected Scholar</h3>
+          <h4>AI4ALL Ignite</h4>
+          <img src="assets/ai4all.png" alt="AI4ALL Logo" style="width: 100px; margin: 10px auto; display: block;" />
+          <p><strong>Time:</strong> Summer 2025</p>
+          <p>Selected as a scholar for the AI4ALL Ignite program, focusing on foundational AI concepts, ethics, and hands-on projects with mentorship from leading AI researchers and practitioners.</p>
+        </div>
+        <div class="experience-card">
+          <h3>Software Engineering Virtual Experience – Midas Core</h3>
+          <h4>JPMorgan Chase & Co. (Forage)</h4>
+          <img src="assets/jpmorgan.webp" alt="JPMorgan Logo" style="width: 50%; margin: 10px auto; display: block; border-radius: 8px; box-shadow: 0 2px 8px #0006;" />
+          <p><strong>Time:</strong> Summer 2025</p>
+          <p>
+            Built a Spring Boot service that consumes Kafka transactions and exposes a REST API for balance lookups.
+             Implemented JPA persistence, configured consumer groups and app port, and verified
+            with automated tests. Practiced production-style debugging and property-driven configuration.
+          </p>
+          <p style="margin-top:10px;">
+            🔗 <a href="https://github.com/DarshanBabuShrestha/jpmorgan-midas-simulation" target="_blank" style="color:#00bfff;">Project Repository</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects-section">
+      <h2>Personal Projects</h2>
+      <div class="project-grid">
+        <!-- AI4ALL – Energy Forecasting Project Card -->
+<div class="project-card" style="max-width: 400px; margin: auto;">
+  <h3 style="text-align: center; margin-bottom: 18px;">AI4ALL – Energy Forecasting</h3>
+  <img src="assets/ai4all.png" alt="AI4ALL Project"
+       style="width: 100%; height: 190px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; cursor: pointer;"
+       onclick="document.getElementById('ai4allModal').style.display='block'">
+</div>
+
+<!-- AI4ALL Modal -->
+<div id="ai4allModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.8); z-index:9999; overflow-y:auto;">
+  <div style="background-color:#1a1a1a; color:#fff; max-width: 900px; margin: 60px auto; padding: 30px; border-radius: 16px; position:relative;">
+    <span onclick="document.getElementById('ai4allModal').style.display='none'"
+          style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
+
+    <h2 style="margin-top: 0;">AI4ALL – Country-Level Energy Consumption Forecasting</h2>
+
+    <p><strong>📖 Overview:</strong><br>
+      Built a full ML pipeline (feature engineering → model training → evaluation) to predict national energy consumption.
+      Used Random Forest and XGBoost, performed hyperparameter tuning, bias checks, and model comparison. Delivered an
+      interactive visualization/dashboard workflow for insight sharing.
+    </p>
+
+    <ul style="list-style:none; padding-left:0;">
+      <li>• Techniques: feature engineering, cross-validation, grid/random search</li>
+      <li>• Metrics: R², MAE, MSE with error analysis per region</li>
+      <li>• Tools: Python, pandas, NumPy, scikit-learn, XGBoost</li>
+    </ul>
+
+    <!-- If you have a repo, replace the link below; otherwise remove this line -->
+    <p style="margin-top: 20px;">
+      🔗 <a href="https://predictenergy.streamlit.app/" target="_blank" style="color:#00bfff;">Live</a>
+
+      🔗 <a href="https://github.com/axk6637/ai4all" target="_blank" style="color:#00bfff;">View on GitHub</a>
+     
+    </p>
+  </div>
+</div>
+
+<!-- JPMorgan Midas Simulation Project Card -->
+<div class="project-card" style="max-width: 400px; margin: auto;">
+  <h3 style="text-align: center; margin-bottom: 18px;">JPMorgan – Midas Simulation</h3>
+  <img src="assets/jpmorgan.webp" alt="JPMorgan Midas"
+       style="width: 100%; height: 190px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; cursor: pointer;"
+       onclick="document.getElementById('jpmcModal').style.display='block'">
+</div>
+
+<!-- JPMorgan Modal -->
+<div id="jpmcModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.8); z-index:9999; overflow-y:auto;">
+  <div style="background-color:#1a1a1a; color:#fff; max-width: 900px; margin: 60px auto; padding: 30px; border-radius: 16px; position:relative;">
+    <span onclick="document.getElementById('jpmcModal').style.display='none'"
+          style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
+
+    <h2 style="margin-top:0;">JPMorgan – Forage Midas Core Simulation</h2>
+
+    <p><strong>📖 Overview:</strong><br>
+      • Completed a multi-step simulation focused on transaction processing, data analysis, and real-time financial
+      insights.
+      • Developed and deployed a Spring Boot microservice to retrieve user account balances via REST API using Java
+      and Maven.
+      • Integrated with Kafka to stream transaction recommendations, ensuring scalability and low-latency message
+      processing.
+      • Debugged and resolved application context loading issues by configuring application properties and dependency
+      injection.
+      • Validated functionality through JUnit tests, ensuring accurate API responses and consistent balance calculations.
+    </p>
+
+    <ul style="list-style:none; padding-left:0;">
+      <li>• Tech: Java, Spring Boot, Spring MVC, Spring Data JPA, Kafka</li>
+      <li>• Features: GET <code>/balance</code>, returns <code>Balance {amount=...}</code>, default 0 for unknown users</li>
+      <li>• Infra: Embedded Kafka for tests, application properties for consumer group and port</li>
+    </ul>
+
+    <p style="margin-top: 20px;">
+      🔗 <a href="https://github.com/DarshanBabuShrestha/jpmorgan-midas-simulation" target="_blank" style="color:#00bfff;">View on GitHub</a>
+      
+    </p>
+  </div>
+</div>
+
+        <!-- GeminEye -->
+<!-- GeminEye Card -->
+<div class="project-card" style="max-width: 400px; margin: auto;">
+  <h3 style="text-align: center; margin-bottom: 18px;">GeminEye–AI Navigation for the Blind</h3>
+  <img src="assets/AI Navigation for the Blind.png" alt="GeminEye Icon"
+       style="width: 100%; height: 190px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; cursor: pointer;"
+       onclick="document.getElementById('gemineyeModal').style.display='block'">
+</div>
+
+<!-- GeminEye Modal -->
+<div id="gemineyeModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.8); z-index:9999; overflow-y:auto;">
+  <div style="background-color:#1a1a1a; color:#fff; max-width: 900px; margin: 60px auto; padding: 30px; border-radius: 16px; position:relative;">
+
+    <!-- Close Button -->
+    <span onclick="document.getElementById('gemineyeModal').style.display='none'"
+          style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
+
+    <h2 style="margin-top: 0;">GeminEye – AI Navigation for the Blind</h2>
+
+    <p><strong>📖 Overview:</strong><br>
+      GeminEye is an AI-powered assistant that helps blind users navigate safely by detecting obstacles and signs in real time. It provides spoken feedback and responds to voice commands, making it highly accessible and intuitive to use.
+    </p>
+
+    <hr style="border: 0; height: 1px; background: #444; margin: 20px 0;">
+
+    <p><strong>📊 Functional Flowchart:</strong></p>
+
+    <!-- Visual Flowchart Start -->
+    <div class="flowchart" style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 30px;">
+      <style>
+        .step {
+          background: #fff;
+          padding: 14px 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          text-align: center;
+          min-width: 280px;
+          color: #000;
+        }
+
+        .decision {
+          background: #e3f2fd;
+          border: 2px dashed #2196f3;
+          color: #0d47a1;
+          font-weight: bold;
+          transform: rotate(45deg);
+          width: 150px;
+          height: 150px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .decision span {
+          transform: rotate(-45deg);
+          text-align: center;
+        }
+
+        .arrow {
+          width: 2px;
+          height: 30px;
+          background-color: #2196f3;
+        }
+
+        .branch {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          gap: 40px;
+        }
+
+        .branch .step {
+          background: #e8f5e9;
+          border-left: 5px solid #4caf50;
+        }
+
+        .label {
+          font-size: 0.9rem;
+          color: #bbb;
+          margin-top: -10px;
+          text-align: center;
+        }
+      </style>
+
+      <div class="step">Start</div>
+      <div class="arrow"></div>
+
+      <div class="step">Camera Feed Activated</div>
+      <div class="arrow"></div>
+
+      <div class="step">Real-Time Object Detection</div>
+      <div class="arrow"></div>
+
+      <div class="decision"><span>Obstacle or Sign Identified?</span></div>
+
+      <div class="branch">
+        <div>
+          <div class="label">No</div>
+          <div class="step">Continue Scanning</div>
+        </div>
+        <div>
+          <div class="label">Yes</div>
+          <div class="step">Use Gemini API + OCR</div>
+        </div>
+      </div>
+
+      <div class="arrow"></div>
+      <div class="step">Convert to Audio Feedback</div>
+      <div class="arrow"></div>
+
+      <div class="step">Deliver Spoken Guidance to User</div>
+      <div class="arrow"></div>
+
+      <div class="decision"><span>Voice Command Detected?</span></div>
+
+      <div class="branch">
+        <div>
+          <div class="label">Yes</div>
+          <div class="step">Process Command + Respond</div>
+        </div>
+        <div>
+          <div class="label">No</div>
+          <div class="step">Loop Back to Camera Feed</div>
+        </div>
+      </div>
+
+      <div class="arrow"></div>
+      <div class="step">End (Manual Stop)</div>
+    </div>
+    <!-- Visual Flowchart End -->
+
+    <hr style="border: 0; height: 1px; background: #444; margin: 30px 0;">
+
+    <p><strong>🚀 Future Enhancements:</strong></p>
+    <ul style="padding-left: 20px;">
+      <li>GPS navigation for outdoor use</li>
+      <li>Wearable edge-device deployment</li>
+      <li>Multilingual voice feedback</li>
+      <li>Crowdsourced feedback for learning</li>
+      <li>Emergency SOS activation</li>
+    </ul>
+
+    <p style="margin-top: 20px;">
+      🔗 <a href="https://devpost.com/software/gemineye" target="_blank" style="color: #00bfff;">View on Devpost</a>
+    </p>
+
+  </div>
+</div>
+
+
+    <!-- AI Slide-to-Quiz Generator -->
+<!-- AI Slide-to-Quiz Card -->
+<div class="project-card" style="max-width: 400px; margin: auto;">
+  <h3 style="text-align: center; margin-bottom: 18px;">AI Slide-to-Quiz Generator</h3>
+  <img src="assets/Ai-Slide-quiz.png" alt="AI Slide Icon"
+       style="width: 100%; height: 190px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; cursor: pointer;"
+       onclick="document.getElementById('aiquizModal').style.display='block'">
+</div>
+
+<!-- AI Slide-to-Quiz Modal -->
+<div id="aiquizModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.8); z-index:9999; overflow-y:auto;">
+  <div style="background-color:#1a1a1a; color:#fff; max-width: 900px; margin: 60px auto; padding: 30px; border-radius: 16px; position:relative;">
+
+    <!-- Close Button -->
+    <span onclick="document.getElementById('aiquizModal').style.display='none'"
+          style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
+
+    <h2 style="margin-top: 0;">AI Slide-to-Quiz Generator</h2>
+
+    <p><strong>📖 Overview:</strong><br>
+      This project converts lecture slides (PDF or PPTX) into interactive quizzes using AI. It extracts key concepts from each slide and formulates multiple-choice questions automatically, turning static material into an engaging, testable format for students and educators.
+    </p>
+
+    <hr style="border: 0; height: 1px; background: #444; margin: 20px 0;">
+
+    <p><strong>📊 Functional Flowchart:</strong></p>
+
+    <!-- Visual Flowchart -->
+    <div class="flowchart" style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 30px;">
+      <style>
+        .step {
+          background: #fff;
+          padding: 14px 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          text-align: center;
+          min-width: 280px;
+          color: #000;
+        }
+
+        .decision {
+          background: #e3f2fd;
+          border: 2px dashed #2196f3;
+          color: #0d47a1;
+          font-weight: bold;
+          transform: rotate(45deg);
+          width: 150px;
+          height: 150px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .decision span {
+          transform: rotate(-45deg);
+          text-align: center;
+        }
+
+        .arrow {
+          width: 2px;
+          height: 30px;
+          background-color: #2196f3;
+        }
+
+        .branch {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          gap: 40px;
+        }
+
+        .branch .step {
+          background: #e8f5e9;
+          border-left: 5px solid #4caf50;
+        }
+
+        .label {
+          font-size: 0.9rem;
+          color: #bbb;
+          margin-top: -10px;
+          text-align: center;
+        }
+      </style>
+
+      <div class="step">User Uploads Slide (PDF/PPTX)</div>
+      <div class="arrow"></div>
+
+      <div class="step">Extract Slide Text</div>
+      <div class="arrow"></div>
+
+      <div class="step">Parse Concepts from Each Slide</div>
+      <div class="arrow"></div>
+
+      <div class="step">Generate Questions using Gemini API</div>
+      <div class="arrow"></div>
+
+      <div class="step">Format into MCQs</div>
+      <div class="arrow"></div>
+
+      <div class="step">Display Quiz Interface</div>
+      <div class="arrow"></div>
+
+      <div class="step">User Takes the Quiz</div>
+      <div class="arrow"></div>
+
+      <div class="step">Show Score & Feedback</div>
+    </div>
+
+    <hr style="border: 0; height: 1px; background: #444; margin: 30px 0;">
+
+    <p><strong>🚀 Future Enhancements:</strong></p>
+    <ul style="list-style: none; padding-left: 0;">
+      <li>✅ Export quizzes to LMS platforms like Canvas/Moodle</li>
+      <li>✅ Add image-based questions using diagram recognition</li>
+      <li>✅ Adaptive difficulty levels based on user performance</li>
+      <li>✅ Audio-narrated quiz questions</li>
+      <li>✅ In-browser analytics for educators</li>
+    </ul>
+
+    <p style="margin-top: 20px;">
+      🔗 <a href="https://frontend-rry1.onrender.com" target="_blank" style="color: #00bfff;">Live Demo</a><br>
+      🔗 <a href="https://github.com/DarshanBabuShrestha/AiQuiz" target="_blank" style="color: #00bfff;">View on GitHub</a>
+    </p>
+
+  </div>
+</div>
+
+    <!-- MyFridge -->
+<!-- MyFridge Project Card -->
+<div class="project-card" style="max-width: 400px; margin: auto;">
+  <h3 style="text-align: center; margin-bottom: 18px;">MyFridge–Smart Meal Generator</h3>
+  <img src="assets/Myfridgeicon.png" alt="MyFridge Icon"
+       style="width: 100%; height: 190px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; cursor: pointer;"
+       onclick="document.getElementById('myfridgeModal').style.display='block'">
+</div>
+
+<!-- MyFridge Modal -->
+<div id="myfridgeModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.8); z-index:9999; overflow-y:auto;">
+  <div style="background-color:#1a1a1a; color:#fff; max-width: 900px; margin: 60px auto; padding: 30px; border-radius: 16px; position:relative;">
+
+    <!-- Close Button -->
+    <span onclick="document.getElementById('myfridgeModal').style.display='none'"
+          style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
+
+    <h2 style="margin-top: 0;">MyFridge – Smart Meal Generator</h2>
+
+    <p><strong>📖 Overview:</strong><br>
+      MyFridge uses AI to turn fridge photos into recipe suggestions. It scans images to detect ingredients, identifies what's available, and generates personalized meals – helping reduce food waste and simplify meal planning.
+    </p>
+
+    <hr style="border: 0; height: 1px; background: #444; margin: 20px 0;">
+
+    <p><strong>📊 Functional Flowchart:</strong></p>
+
+    <!-- Visual Flowchart -->
+    <div class="flowchart" style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 30px;">
+      <style>
+        .step {
+          background: #fff;
+          padding: 14px 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          text-align: center;
+          min-width: 280px;
+          color: #000;
+        }
+
+        .decision {
+          background: #e3f2fd;
+          border: 2px dashed #2196f3;
+          color: #0d47a1;
+          font-weight: bold;
+          transform: rotate(45deg);
+          width: 150px;
+          height: 150px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .decision span {
+          transform: rotate(-45deg);
+          text-align: center;
+        }
+
+        .arrow {
+          width: 2px;
+          height: 30px;
+          background-color: #2196f3;
+        }
+
+        .branch {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          gap: 40px;
+        }
+
+        .branch .step {
+          background: #e8f5e9;
+          border-left: 5px solid #4caf50;
+        }
+
+        .label {
+          font-size: 0.9rem;
+          color: #bbb;
+          margin-top: -10px;
+          text-align: center;
+        }
+      </style>
+
+      <div class="step">User Uploads Fridge Image</div>
+      <div class="arrow"></div>
+
+      <div class="step">Image Processed via Gemini Vision API</div>
+      <div class="arrow"></div>
+
+      <div class="step">Ingredients Extracted from Image</div>
+      <div class="arrow"></div>
+
+      <div class="step">Check Ingredient Validity</div>
+      <div class="arrow"></div>
+
+      <div class="step">Pass Items to Meal Generator</div>
+      <div class="arrow"></div>
+
+      <div class="step">AI Suggests Recipe Ideas</div>
+      <div class="arrow"></div>
+
+      <div class="step">User Sees Meal List & Instructions</div>
+    </div>
+
+    <hr style="border: 0; height: 1px; background: #444; margin: 30px 0;">
+
+    <p><strong>🚀 Future Enhancements:</strong></p>
+    <ul style="list-style: none; padding-left: 0;">
+      <li>1. Barcode + expiration detection via camera</li>
+      <li>2. Nutritional analysis and calorie breakdown</li>
+      <li>3. Smart pantry tracking (learn what you usually stock)</li>
+      <li>4. Recipe rating and user feedback system</li>
+      <li>5. Voice assistant integration</li>
+    </ul>
+
+    <p style="margin-top: 20px;">
+      🔗 <a href="https://myfridge-lhaj.onrender.com" target="_blank" style="color: #00bfff;">Live Demo</a>
+    </p>
+
+  </div>
+</div>
+
+
+
+<!-- Customer Churn Prediction Project Card -->
+      <div class="project-card" style="max-width: 400px; margin: auto;">
+        <h3 style="text-align: center; margin-bottom: 18px;">Customer Churn Prediction</h3>
+        <img src="assets/customerchurn.png" alt="Churn Prediction Icon"
+             style="width: 100%; height: 190px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; cursor: pointer;"
+             onclick="document.getElementById('churnModal').style.display='block'">
+      </div>
+      <!-- Customer Churn Prediction Modal -->
+      <div id="churnModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.8); z-index:9999; overflow-y:auto;">
+        <div style="background-color:#1a1a1a; color:#fff; max-width: 900px; margin: 60px auto; padding: 30px; border-radius: 16px; position:relative;">
+          <span onclick="document.getElementById('churnModal').style.display='none'"
+                style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
+          <h2 style="margin-top: 0;">Customer Churn Prediction</h2>
+          <p><strong>📖 Overview:</strong><br>
+            Developed a machine learning solution to predict customer churn for a telecom company. Used Python (pandas, scikit-learn) for data cleaning, feature engineering, and model training. Achieved strong accuracy with Random Forest and Logistic Regression, and visualized key churn factors for actionable business insights.
+          </p>
+          <hr style="border: 0; height: 1px; background: #444; margin: 20px 0;">
+          <p><strong>🔑 Key Features:</strong></p>
+          <ul style="list-style: none; padding-left: 0;">
+            <li>• Data preprocessing and EDA on telecom customer data</li>
+            <li>• Feature selection and engineering</li>
+            <li>• Model training (Random Forest, Logistic Regression)</li>
+            <li>• Evaluation with accuracy, precision, recall, ROC</li>
+            <li>• Visualization of churn drivers and business recommendations</li>
+          </ul>
+          <p style="margin-top: 20px;">
+            🔗 <a href="https://github.com/DarshanBabuShrestha/Customer-Churn-Prediction" target="_blank" style="color: #00bfff;">View on GitHub</a>
+          </p>
+        </div>
+      </div>
+
+
+<!-- Java Stock Management System Card -->
+<div class="project-card" style="max-width: 400px; margin: auto;">
+  <h3 style="text-align: center; margin-bottom: 18px;">Java Stock Management System</h3>
+  <img src="assets/Stock.png" alt="Stock Icon"
+       style="width: 100%; height: 190px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; cursor: pointer;"
+       onclick="document.getElementById('stockModal').style.display='block'">
+</div>
+
+<!-- Modal -->
+<div id="stockModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.8); z-index:9999; overflow-y:auto;">
+  <div style="background-color:#1a1a1a; color:#fff; max-width: 900px; margin: 60px auto; padding: 30px; border-radius: 16px; position:relative;">
+
+    <!-- Close Button -->
+    <span onclick="document.getElementById('stockModal').style.display='none'"
+          style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
+
+    <h2 style="margin-top: 0;">Java Stock Management System</h2>
+
+    <p><strong>📖 Overview:</strong><br>
+      This system was built for G8 Group's CEO to efficiently manage daily cosmetic stock entries for Face, Hand, and Misc. items. It features login authentication, admin and guest views, stock addition/subtraction, auto alerts, and real-time updates using SQL and Java Swing.
+    </p>
+
+    <hr style="border: 0; height: 1px; background: #444; margin: 20px 0;">
+
+    <p><strong>📊 Flowchart – CEO Tab:</strong></p>
+    <img src="assets/Flowchat-CEO.png" alt="CEO Flowchart" style="width: 100%; max-width: 800px; border-radius: 10px; margin: 20px auto; display: block;">
+
+    <p><strong>📊 Flowchart – Guest Tab:</strong></p>
+    <img src="assets/Flowchat-Guest.png" alt="Guest Flowchart" style="width: 100%; max-width: 800px; border-radius: 10px; margin: 20px auto; display: block;">
+
+    <hr style="border: 0; height: 1px; background: #444; margin: 30px 0;">
+
+    <p><strong>🚀 Key Features:</strong></p>
+    <ul style="list-style: none; padding-left: 0;">
+      <li>1. Login, Signup, and Password Management</li>
+      <li>2. Low stock alert when below 10 units</li>
+      <li>3. Auto-delete when stock = 0</li>
+      <li>4. Portfolio view, profit/loss summary, and calculator</li>
+    </ul>
+
+    <p style="margin-top: 20px;">
+      🔗 <a href="https://github.com/DarshanBabuShrestha/Stock-Management-System" target="_blank" style="color: #00bfff;">View on GitHub</a>
+    </p>
+
+  </div>
+</div>
+
+
+
+
+  </div>
+
+<!-- MODAL STRUCTURE -->
+<div id="project-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#1e1e1e; color:white; padding:30px; border-radius:12px; z-index:1000; width:90%; max-width:600px; box-shadow:0 0 15px rgba(0,0,0,0.8); font-family:'Courier New', monospace; font-size:16px; line-height:1.6;">
+  <span id="modal-close" style="cursor:pointer; position:absolute; top:8px; right:12px; font-size:28px; font-family:'Arial';">&times;</span>
+  <h3 id="modal-title" style="margin-top:0; color:#FFD700; font-family:'Georgia'; font-size:22px;"></h3>
+  <p id="modal-description" style="font-family:'Verdana'; font-size:16px;"></p>
+  <p><a id="modal-link" href="#" target="_blank" style="color:#00BFFF; text-decoration:underline; font-size:16px;">View Project</a></p>
+</div>
+
+<div id="modal-backdrop" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:999;"></div>
+</section>
+
+<script>
+  const modal = document.getElementById('project-modal');
+  const backdrop = document.getElementById('modal-backdrop');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-description');
+  const modalLink = document.getElementById('modal-link');
+  const closeBtn = document.getElementById('modal-close');
+
+  document.querySelectorAll('.project-toggle-img').forEach(img => {
+    img.addEventListener('click', () => {
+      modalTitle.textContent = img.getAttribute('data-title');
+      modalDesc.textContent = img.getAttribute('data-description');
+      modalLink.href = img.getAttribute('data-link');
+      modalLink.textContent = img.getAttribute('data-linktext') || "View Project";
+      modal.style.display = 'block';
+      backdrop.style.display = 'block';
+    });
+  });
+
+  [closeBtn, backdrop].forEach(el => {
+    el.addEventListener('click', () => {
+      modal.style.display = 'none';
+      backdrop.style.display = 'none';
+    });
+  });
+</script>
+
+<style>
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Match size responsiveness */
+  gap: 20px; /* Same spacing as achievements */
+  max-width: 900px; /* Same container width as achievements */
+  margin: 0 auto;
+}
+@media (max-width: 600px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+</style>
+
+    <section id="achievements" class="achievements-section" style="background-color: #1a1a1a; padding: 60px 20px; text-align: center; color: #f1f1f1;">
+      <h2 style="font-size: 2.5rem; color: #ffda77; margin-bottom: 30px;">Achievements & Certifications</h2>
+
+      <div class="grid-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto;">
+        <div class="grid-item" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'});" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/hackuta.png" alt="HackUTA" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>Best Use of Gemini API – HackUTA 2025</strong>
+        </div>
+
+        <div class="grid-item" style="background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/instem.png" alt="InStem UTA" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>Selected Scholar – InSTEM UTA</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/300ef5704c03ca3894210f8a01d3203c', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/ibm.png" alt="IBM" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>IBM – Python for Data Science</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/99ad3d20d0f2cd1d7cb06455af9de46c', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/ucdavis.png" alt="UC Davis" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>UC Davis – SQL for Data Science</strong>
+        </div>
+        <div class="grid-item" style="background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/hackuta.png" alt="InStem UTA" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>Deans List Spring 2025</strong>
+        </div>
+
+
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/7fc113c0df1e1776ca9f08d060af4d5f', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/umich1.png" alt="U Michigan" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>UM – Python Data Structures</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/ab9d648ce15f536b7d7ffdcb8e943c27', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/google.png" alt="Google" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>Google – Crash Course on Python</strong>
+        </div>
+
+        <div class="grid-item" onclick="window.open('https://coursera.org/share/f1bfd50b011c15dd2094436603e569a8', '_blank')" style="cursor: pointer; background-color: #2a2a2a; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <img src="assets/umich1.png" alt="U Michigan" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+          <strong>UM – Programming for Everybody</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="resume" class="resume-section" style="background-color: #1a1a1a; padding: 60px 20px; text-align: center; color: #f1f1f1;">
+      <h2 style="font-size: 2.5rem; color: #ffda77; margin-bottom: 30px;">Resume</h2>
+   
+      <a href="assets/resume.pdf" target="_blank" style="display: inline-block; padding: 16px 36px; background: #ffda77; color: #1a1a1a; border-radius: 8px; font-size: 1.2rem; font-weight: bold; text-decoration: none; transition: background 0.3s; margin-bottom: 18px;">View Resume</a>
+      <div style="margin-top: 40px; max-width: 900px; margin-left: auto; margin-right: auto;">
+      </div>
+    </section>
+
+  </div>
+
+  <div class="fullscreen-overlay" id="fullscreenOverlay">
+    <span class="close-button" onclick="closeFullscreen()">&times;</span>
+    <img src="" alt="Full Size Image" class="fullscreen-image" id="fullscreenImage" />
+  </div>
+
+  <div id="chatbot-button" onclick="toggleChatbot()">
+    <img src="assets/message.gif" alt="Message Icon" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" />
+  </div>
+
+  <div id="chatbot-container">
+    <!-- Top Bar -->
+    <div id="chatbot-header">
+      <span class="bot-name">Darshan's Bot</span>
+      <span class="status-dot"></span>
+      <span class="status-text">Active now</span>
+    </div>
+    <div id="chat-window"></div>
+    <div id="chat-input-container">
+      <input id="chat-input" type="text" placeholder="Ask me about Darshan..." />
+      <button id="chat-send" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Fullscreen image logic
+    function openFullscreen(imageSrc) {
+      const overlay = document.getElementById('fullscreenOverlay');
+      const image = document.getElementById('fullscreenImage');
+      image.src = imageSrc;
+      overlay.classList.add('open');
+    }
+
+    function closeFullscreen() {
+      document.getElementById('fullscreenOverlay').classList.remove('open');
+    }
+
+    // Animate skills one by one
+    const skillSection = document.querySelector('#skills');
+    const skillItems = document.querySelectorAll('.skill-item');
+
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          skillItems.forEach((item, i) => {
+            setTimeout(() => {
+              item.classList.add('animated');
+            }, i * 150); // Delay each skill animation
+          });
+          skillObserver.unobserve(skillSection);
+
+        }
+      });
+    }, { threshold: 0.3 });
+
+    skillObserver.observe(skillSection);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.experience-card').forEach((card) => {
+      observer.observe(card);
+    });
+
+    // Chatbot logic
+    function toggleChatbot() {
+      const container = document.getElementById('chatbot-container');
+      if (container.style.display === 'flex') {
+        container.style.display = 'none';
+      } else {
+        container.style.display = 'flex';
+      }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const chatWindow = document.getElementById('chat-window');
+      const message = input.value;
+      if (!message.trim()) return;
+
+      // User message
+      const userDiv = document.createElement("div");
+      userDiv.className = "chat-message user-message";
+      userDiv.textContent = message;
+      chatWindow.appendChild(userDiv);
+      input.value = "";
+
+      const formData = new FormData();
+      formData.append("query", message);
+
+      // Show typing.gif while waiting for backend
+      const aiDiv = document.createElement("div");
+      aiDiv.className = "chat-message ai-message";
+      aiDiv.id = "typing-indicator";
+      aiDiv.innerHTML = '<img src="assets/typing.gif" alt="Typing..." style="height:32px;">';
+      chatWindow.appendChild(aiDiv);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+
+      const res = await fetch("https://portfoliobackend-0o3e.onrender.com/chat", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+
+      const typingIndicator = document.getElementById("typing-indicator");
+      if (typingIndicator) typingIndicator.remove();
+
+      const finalAiDiv = document.createElement("div");
+      finalAiDiv.className = "chat-message ai-message";
+      finalAiDiv.textContent = data.response; // Show full response instantly
+      chatWindow.appendChild(finalAiDiv);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+    setTimeout(() => {
+      const notify = document.getElementById("chat-notify");
+      notify.classList.add("show");
+    }, 2000); // Initial delay before showing
+
+    document.getElementById("chatbot-button").addEventListener("click", function() {
+      const notify = document.getElementById("chat-notify");
+      notify.classList.remove("show");
+    });
+
+    // Tooltip for Namaste
+    function showNamasteTooltip(event) {
+      const tooltip = document.getElementById('namaste-tooltip');
+      tooltip.style.display = 'block';
+      // Position tooltip below the text, centered
+      const rect = event.target.getBoundingClientRect();
+      tooltip.style.left = '50%';
+      tooltip.style.top = '110%';
+    }
+    function hideNamasteTooltip() {
+      const tooltip = document.getElementById('namaste-tooltip');
+      tooltip.style.display = 'none';
+    }
+
+    // Toggle project description on PNG click
+    const toggleImgs = document.querySelectorAll('.project-toggle-img');
+    toggleImgs.forEach(img => {
+      img.addEventListener('click', function() {
+        const targetId = img.getAttribute('data-target');
+        const desc = document.getElementById(targetId);
+        if (desc.style.display === 'none' || desc.style.display === '') {
+          desc.style.display = 'block';
+        } else {
+          desc.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
